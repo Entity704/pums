@@ -1,0 +1,50 @@
+body {
+    user-select: none;
+    text-align: center;
+    line-height: 80%;
+}
+
+.cendiv {
+    text-align: center;
+}
+
+.history {
+    color: #cccc00;
+    overflow-y: scroll;
+    border: 3px solid grey;
+    border-radius: 2px;
+    width: 220px;
+    height: 400px;
+    margin: auto;
+}
+
+.butbox {
+    margin: auto;
+    width: 120px;
+}
+
+button {
+    border: solid dodgerblue;
+    border-radius: 12px;
+    width: 120px;
+    height: 100%;
+    font-size: 20px;
+    background-color: white;
+}
+.butbox:hover button {
+    animation: shake 3.5s infinite;
+    font-weight: bolder;
+    color: green;
+    background-color: gold;
+}
+button:active {
+    font-weight: bolder;
+    background-color: #e0e0e0;
+}
+@keyframes shake {
+    0% {transform: translateX(200px);}
+    25% {transform: translateX(-200px);}
+    50% {transform: translateX(200px);}
+    75% {transform: translateX(-200px);}
+    100% {transform: translateX(200px);}
+}

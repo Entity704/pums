@@ -7,14 +7,17 @@ var clicks = 0;
 var hits = 0;
 var i = 0;
 var os = '';
+var combo = 0;
+var best = 0;
 
 var name = prompt('你的名字', 'nameless tee');
 
-ot = Date.now();
+var ot = Date.now();
+var ot2 = Date.now();
 
 function randomMoney() {
     hits += 1;
-    document.getElementById('hits').innerHTML='命中次数: '+hits;
+    document.getElementById('hits').innerHTML='命中率: '+hits+'/'+clicks+' = '+(hits/clicks*100).toFixed(1)+'%';
     a = Math.round(Math.random() * 10);
     money = Math.round((Date.now() - ot) / 60);
     money += 5;
@@ -94,13 +97,20 @@ window.onload = function() {
 
     show('*** '+name+' entered and joined the game');
 
-    rh.onclick = function(e) {
+    rh.onclick = function() {
         mb.style.animationPlayState = 'paused';
         dis = mb.getBoundingClientRect().left - rh.getBoundingClientRect().left + 12;
+        mb.style.animationPlayState = 'running';
         clicks += 1;
-        document.getElementById('clicks').innerHTML='点击次数: '+clicks;
+        document.getElementById('hits').innerHTML='命中率: '+hits+'/'+clicks+' = '+(hits/clicks*100).toFixed(1)+'%';
+        console.log(dis);
         if(dis >= -30 & dis <= 30) {
             randomMoney();
+            combo += 1;
+            var ot3 = Date.now();
+            if(combo > best) {
+                best = combo;
+            }
         }
 
         if(dis >= -5 & dis <= 5) {
@@ -117,6 +127,13 @@ window.onload = function() {
         }
         else {
             eval('错过', 'red');
+            combo = 0;
         }
+
+        if(Date.now() - ot2 >= 1500) {
+            combo = 0;
+        }
+        document.getElementById('combo').innerHTML='连击: '+combo+' 最佳: '+best;
+        ot2 = ot3;
     }
 }

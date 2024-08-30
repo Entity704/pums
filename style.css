@@ -9,6 +9,15 @@ body {
     text-align: center;
 }
 
+.rh {
+    height: 1cm;
+    width: 3.1cm;
+    margin: auto;
+    margin-bottom: 8px;
+    border-radius: 0.5cm;
+    box-shadow:0px 0px 0px 3px #e0e0e0 inset;
+}
+
 input {
     width: 600px;
     height: 26px;
@@ -17,6 +26,36 @@ input {
     border-radius: 12px;
     padding-left: 16px;
     font-size: 16px;
+    animation: unhovershadow 0.2s;
+}
+input:hover {
+    animation: hovershadow 0.2s;
+    box-shadow: 0px 0px 3px 1px grey;
+}
+input:focus {
+    outline: none;
+    animation: focusshadow 0.2s ease;
+    box-shadow: 0px 0px 3px 3px grey;
+}
+
+@keyframes hovershadow {
+    from {box-shadow: 0px 0px 0px 0px grey;}
+    to {box-shadow: 0px 0px 3px 1px grey;}
+}
+@keyframes unhovershadow {
+    from {box-shadow: 0px 0px 3px 1px grey;}
+    to {box-shadow: 0px 0px 0px 0px grey;}
+}
+@keyframes focusshadow {
+    from {box-shadow: 0px 0px 3px 1px grey;}
+    to {box-shadow: 0px 0px 3px 3px grey;}
+}
+
+::selection {
+    color: white;
+    background-color: gray;
+    -webkit-text-stroke: 0px;
+    font-weight: lighter;
 }
 
 .history {
@@ -30,13 +69,14 @@ input {
     padding-left: 16px;
     padding-top: 16px;
     overflow-x: hidden;
+    user-select: text;
 }
 .history p {
     width: max-content;
     height: min-content;
     color: #fffd7f;
-    background-color: #c0c0c0;
-    border: 4px solid #c0c0c0;
+    background-color: #d0d0d0;
+    border: 4px solid #d0d0d0;
     border-radius: 8px;
     margin: 0px;
     padding-left: 6px;
@@ -48,18 +88,18 @@ input {
 
 .butbox {
     margin: auto;
-    width: 120px;
-    height: 38px;
+    width: 3.1cm;
+    height: 1cm;
     margin-bottom: 8px;
-    border-radius: 19px;
+    border-radius: 0.5cm;
     box-shadow:0px 0px 0px 3px #e0e0e0 inset;
 }
 
 button {
     border: 3px solid dodgerblue;
-    border-radius: 19px;
-    width: 120px;
-    height: 38px;
+    border-radius: 0.5cm;
+    width: 3.1cm;
+    height: 1cm;
     font-size: 20px;
     background-color: white;
 }
@@ -69,7 +109,7 @@ button:hover {
     background-color: gold;
 }
 .butbox:hover button {
-    animation: shake 4.8s infinite;
+    animation: shake 4.8s infinite ease;
     font-weight: bolder;
     color: green;
     background-color: gold;

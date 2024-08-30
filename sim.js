@@ -1,7 +1,9 @@
 var total = 0;
+var golds = 0;
+var silver = 0;
 var a;
-var money = 0;
-var chicks = 0;
+var money;
+var clicks = 0;
 var hits = 0;
 ot = Date.now();
 
@@ -21,6 +23,7 @@ function randomMoney(isup) {
 function update() {
     document.getElementById('total').innerHTML='总计: '+total+'个钱袋';
     document.getElementById('money').innerHTML='你捡到了: '+(money + a)+'个钱袋';
+    document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
 
     var history = document.createElement('p');
     history.innerText = '*** 你捡到了'+money+'+'+a+'个钱袋';
@@ -33,9 +36,21 @@ function update() {
     ot = Date.now();
 }
 
-window.onload=function() {
-    document.onmousedown=function(event) {
-        chicks += 1;
-        document.getElementById('chicks').innerHTML='点击次数: '+chicks;
+function usingBag() {
+    golds += total * (1 - Math.random() / 10);
+    golds = parseFloat(golds.toFixed(5));
+    silver = Math.round((golds - parseInt(golds)) * 1e5);
+    total = 0;
+    document.getElementById('total').innerHTML='总计: '+total+'个钱袋';
+    document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
+
+    clicks -= 1;
+    document.getElementById('clicks').innerHTML='点击次数: '+clicks;
+}
+
+window.onload = function() {
+    document.onmousedown = function(event) {
+        clicks += 1;
+        document.getElementById('clicks').innerHTML='点击次数: '+clicks;
     }
 }

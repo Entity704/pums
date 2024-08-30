@@ -14,14 +14,18 @@
         <p id="money">你捡到了: 0个钱袋</p>
         <p id="clicks">点击次数: 0</p>
         <p id="hits">命中次数: 0</p>
-        <div class="butbox">
-            <button onclick="randomMoney(true)">捡 钱</button>
+        <p id="seval" style="color: grey;", class="se">--</p>
+        <div id="rhit">
+            <div id="hitbox" class="butbox">
+                <button id="moneybtn">捡 钱</button>
+            </div>
         </div>
-        <button onclick="usingBag()">使 用</button>
+        <button id="usebag" onclick="usingBag()">使 用</button>
     </div>
     <p>历史: </p>
     <div id="history" class="history">
-        <p style="font-size: 8px; color: #cccc00;">*** '你' enter and join the game</p>
+        <p>*** '你' entered and joined the game</p>
     </div>
+    <input id="say" onkeydown="detkey()">
 </body>
 </html>

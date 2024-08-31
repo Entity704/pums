@@ -35,7 +35,7 @@ function update() {
     document.getElementById('money').innerHTML='你捡到了: '+(money + a)+'个钱袋';
     document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
 
-    show("*** '"+name+"' 捡到钱袋了! 拿到了 "+a+' + '+money+' 个钱袋!');
+    show('*** '+name+' 捡到钱袋了! 拿到了 '+a+' + '+money+' 个钱袋!');
     show('*** 你获得了 钱袋x'+(money+a));
 
     ot = Date.now();
@@ -118,7 +118,7 @@ window.onload = function() {
     });
     document.getElementById('tb').addEventListener('click', shake);
 
-    show('*** '+name+' entered and joined the game');
+    show("*** '"+name+"' entered and joined the game");
 
     rh.onclick = function() {
         dis = mb.getBoundingClientRect().left - rh.getBoundingClientRect().left;

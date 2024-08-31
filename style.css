@@ -10,6 +10,73 @@ body {
     text-align: center;
 }
 
+.sth {
+    animation: info2 0.5s;
+    width: 1.2cm;
+    height: 1.2cm;
+    border-radius: 6mm;
+    box-shadow: 0px 0px 5px 2px grey;
+    background-color: #f6f6f6;
+    position: absolute;
+    top: 2%;
+    left: 20%;
+    overflow-x: hidden;
+}
+.icon {
+    font-size: 3mm;
+    font-weight: bold;
+    line-height: 6mm;
+}
+.sth:hover {
+    animation: info 0.5s;
+    width: 6cm;
+    height: 12cm;
+}
+@keyframes info {
+    from {
+        width: 1.2cm;
+        height: 1.2cm;
+    }
+    to {
+        width: 6cm;
+        height: 12cm;
+    }
+}
+@keyframes info2 {
+    from {
+        width: 6cm;
+        height: 12cm;
+    }
+    to {
+        width: 1.2cm;
+        height: 1.2cm;
+    }
+}
+
+.more {
+    font-size: 3mm;
+    line-height: 2mm;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 5mm;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin: auto;
+    text-indent: 4mm;
+    text-align: left;
+    max-width: 0;
+    max-height: 0;
+    transition: max-height 0.5s ease, max-width 0.5s ease;
+}
+.sth:hover .more {
+    max-width: 5cm;
+    max-height: 10.3cm;
+}
+@keyframes hide {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
 .rh {
     height: 1cm;
     width: 3.1cm;
@@ -69,8 +136,6 @@ input:focus {
     text-align: left;
     padding-left: 16px;
     padding-top: 16px;
-    word-wrap: break-word;
-    word-break: break-all;
     overflow-x: hidden;
     user-select: text;
 }
@@ -112,7 +177,7 @@ button:hover {
     background-color: gold;
 }
 .butbox:hover button {
-    animation: lr 5.6s infinite ease;
+    animation: lr 5.2s infinite ease;
     font-weight: bolder;
     color: green;
     background-color: gold;

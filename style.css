@@ -112,7 +112,7 @@ button:hover {
     background-color: gold;
 }
 .butbox:hover button {
-    animation: shake 4.8s infinite ease;
+    animation: lr 5.6s infinite ease;
     font-weight: bolder;
     color: green;
     background-color: gold;
@@ -121,7 +121,11 @@ button:active {
     font-weight: bolder;
     background-color: #e0e0e0;
 }
-@keyframes shake {
+button:focus {
+    outline: none;
+    box-shadow: 0px 0px 2px 1px yellow;
+}
+@keyframes lr {
     0% {transform: translateX(200px);}
     25% {transform: translateX(-200px);}
     50% {transform: translateX(200px);}
@@ -136,4 +140,17 @@ button:active {
 .se {
     font-size: 22px;
     font-weight: bold;
+}
+
+.box1 {
+    margin: auto;
+    width: max-content;
+    height: min-content;
+}
+@keyframes shake {
+    0% {transform: translateX(10px);}
+    25% {transform: translateX(-10px);}
+    50% {transform: translateX(10px);}
+    75% {transform: translateX(-10px);}
+    100% {transform: translateX(10px);}
 }

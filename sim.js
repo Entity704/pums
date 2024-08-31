@@ -9,8 +9,12 @@ var i = 0;
 var os = '';
 var combo = 0;
 var best = 0;
+var combos = [5, 10, 20, 30, 50, 100, 200];
 
 var name = prompt('你的名字', 'nameless tee');
+if(name == 'null' || name == '') {
+    name = 'nameless tee'
+}
 
 var ot = Date.now();
 var ot2 = Date.now();
@@ -31,7 +35,7 @@ function update() {
     document.getElementById('money').innerHTML='你捡到了: '+(money + a)+'个钱袋';
     document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
 
-    show('*** '+name+' 捡到钱袋了! 拿到了 '+a+' + '+money+' 个钱袋!');
+    show("*** '"+name+"' 捡到钱袋了! 拿到了 "+a+' + '+money+' 个钱袋!');
     show('*** 你获得了 钱袋x'+(money+a));
 
     ot = Date.now();
@@ -40,6 +44,13 @@ function update() {
 function show(smsg) {
     var msg = document.createElement('p');
     msg.innerHTML= smsg;
+    var addr = document.getElementById('history');
+    addr.insertAdjacentElement('afterbegin', msg);
+}
+function echo(smsg) {
+    var msg = document.createElement('p');
+    msg.innerHTML= '— '+smsg;
+    msg.style.color='#7fc7ff';
     var addr = document.getElementById('history');
     addr.insertAdjacentElement('afterbegin', msg);
 }
@@ -73,7 +84,7 @@ function detkey(e) {
             i = 0;
         }
         else {
-            i += 1;
+            i ++;
             var msg = document.createElement('p');
             msg.innerHTML='0: '+name+' ['+(i + 1)+']: '+document.getElementById('say').value;
             os = document.getElementById('say').value;
@@ -83,6 +94,11 @@ function detkey(e) {
             history.replaceChild(msg, history.childNodes[0]);
         }
     }
+}
+
+function shake() {
+    var title = document.getElementById('t');
+    title.style.animation='shake 0.5s';
 }
 
 function eval(evaluation, color) {
@@ -95,21 +111,31 @@ window.onload = function() {
     var mb = document.getElementById('moneybtn');
     var rh = document.getElementById('rhit');
 
+    document.getElementById('moneybtn').addEventListener('focus', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.blur();
+    });
+    document.getElementById('tb').addEventListener('click', shake);
+
     show('*** '+name+' entered and joined the game');
 
     rh.onclick = function() {
-        mb.style.animationPlayState = 'paused';
-        dis = mb.getBoundingClientRect().left - rh.getBoundingClientRect().left + 12;
-        mb.style.animationPlayState = 'running';
-        clicks += 1;
+        dis = mb.getBoundingClientRect().left - rh.getBoundingClientRect().left;
+        clicks ++;
         document.getElementById('hits').innerHTML='命中率: '+hits+'/'+clicks+' = '+(hits/clicks*100).toFixed(1)+'%';
         console.log(dis);
         if(dis >= -30 & dis <= 30) {
             randomMoney();
-            combo += 1;
+            combo ++;
             var ot3 = Date.now();
             if(combo > best) {
                 best = combo;
+            }
+            for(var j = 0; j < combos.length; j++) {
+                if(combo == combos[j]) {
+                    echo(combo+'连击! ')
+                }
             }
         }
 

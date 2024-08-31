@@ -8,7 +8,9 @@
 </head>
 <body>
     <div class="cendiv">
-        <h1>捡钱模拟器</h1>
+        <div id="tb" class="box1">
+            <h1 id="t">捡钱模拟器</h1>
+        </div>
         <p id="total">总计: 0个钱袋</p>
         <p id="golds">0个黄金 0个白银</p>
         <p id="money">你捡到了: 0个钱袋</p>
@@ -17,7 +19,7 @@
         <p id="seval" style="color: grey;", class="se">--</p>
         <div id="rhit" class="rh">
             <div id="hitbox" class="butbox">
-                <button id="moneybtn">捡 钱</button>
+                <button id="moneybtn" tabindex="-1">捡 钱</button>
             </div>
         </div>
         <button id="usebag" onclick="usingBag()">使 用</button>

@@ -1,33 +1,50 @@
 import {show, echo} from "./say.js";
+import {cExp} from "./calc.js";
 
 var total = 0;
 var golds = 0;
 var silver = 0;
-var a;
-var money;
+var a = 0;
+var money = 0;
 var clicks = 0;
 var hits = 0;
 var i = 0;
 var os = '';
 var combo = 0;
 var best = 0;
-var combos = [5, 10, 20, 30, 50, 100, 200];
+var combos = [5, 10, 20, 30];
+
+var lv = 1;
+var exp = 0;
+var needExp = cExp(lv);
+var perfect = 0;
+document.getElementById('exp').innerHTML='经验: '+exp+'/'+needExp;
+var inventory = new Array(window.pumsItems.length);
+for(var j = 0; j < window.pumsItems.length; j++) {
+    inventory[j] = 0;
+}
+
+items = window.pumsItems;
 
 var name = prompt('你的名字', 'nameless tee');
-if(name == 'null' || name == '') {
+if(name == null || name == '') {
     name = 'nameless tee'
 }
+document.getElementById('name').innerHTML='昵称: '+name;
 
 var ot = Date.now();
 var ot2 = Date.now();
 
 function randomMoney() {
     hits += 1;
-    document.getElementById('hits').innerHTML='命中率: '+hits+'/'+clicks+' = '+(hits/clicks*100).toFixed(1)+'%';
     a = Math.round(Math.random() * 10);
     money = Math.round((Date.now() - ot) / 60);
     money += 5;
     total += money + a;
+
+    show(name+' 捡到钱袋了! 拿到了 '+a+' + '+money+' 个钱袋!');
+    show('你获得了 钱袋x'+(money + a));
+    inventory[2] += money + a;
 
     update();
 }
@@ -36,28 +53,125 @@ function update() {
     document.getElementById('total').innerHTML='总计: '+total+'个钱袋';
     document.getElementById('money').innerHTML='你捡到了: '+(money + a)+'个钱袋';
     document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
+    document.getElementById('hits').innerHTML='命中率: '+hits+'/'+clicks+' = '+(hits/clicks*100).toFixed(1)+'%';
+    document.getElementById('combo').innerHTML='连击: '+combo+' 最佳: '+best;
+    document.getElementById('perfect').innerHTML='完美: '+perfect;
 
-    show(''+name+' 捡到钱袋了! 拿到了 '+a+' + '+money+' 个钱袋!');
-    show('你获得了 钱袋x'+(money+a));
+    if(exp >= needExp) {
+        exp -= needExp;
+        lv++;
+        needExp = cExp(lv);
+        echo('你升级了！升至Lv.'+lv+', 需'+needExp+'经验升至Lv.'+(lv + 1));
+        update();
+    }
+
+    var itemCount = 0;
+    var invNode = document.getElementById('inventory');
+    for (var j = invNode.childNodes.length - 1; j >= 0; j--) {
+        if (invNode.childNodes[j].nodeName == 'DIV' || invNode.childNodes[j].nodeName == 'A') {
+            invNode.removeChild(invNode.childNodes[j]);
+        }
+    }
+
+    for(var j = 0; j < inventory.length; j++) {
+        if(inventory[j] > 0) {
+            itemCount++;
+            var DestId = j;
+            var invBox = document.createElement('div');
+            var ea = document.createElement('a');
+            var p = document.createElement('p');
+            var delButton = document.createElement('button');
+            invNode.appendChild(invBox);
+            invBox.appendChild(ea);
+            ea.appendChild(p)
+            invBox.appendChild(delButton);
+            invBox.className='inv';
+            ea.href='javascript:use('+j+');';
+            p.innerHTML=items[j][0]+' x'+inventory[j];
+            delButton.onclick = function() {
+                destroy(DestId);
+            }
+            delButton.className='del';
+            delButton.tabIndex='-1';
+        }
+    }
+    if(itemCount == 0) {
+        var ea = document.createElement('a');
+        var p = document.createElement('p');
+        invNode.appendChild(ea);
+        ea.appendChild(p);
+        ea.href='javascript:void(0);';
+        p.innerHTML='空空如也';
+    }
+
+    var alla = document.querySelectorAll('a');
+    for(var i = 0; i < alla.length; i++) {
+        alla[i].draggable='false';
+        alla[i].tabIndex='-1';
+    }
+
+    document.getElementById('lv').innerHTML='等级: Lv.'+lv;
+    document.getElementById('exp').innerHTML='经验: '+exp+'/'+needExp;
 
     ot = Date.now();
 }
 
-function usingBag() {
-    var hgold = parseFloat((total * (1.1 - Math.random() / 5)).toFixed(4))
+function usingBag(count) {
+    if(count == null) {
+        count = total;
+    }
+    var hgold = parseFloat((count * (1.1 - Math.random() / 5)).toFixed(4))
     golds += hgold;
     golds = parseFloat(golds.toFixed(4));
     silver = Math.round((golds - parseInt(golds)) * 1e4);
-    document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
 
     if(total != 0) {
-        show(''+name+' 使用了物品:钱袋 x'+total+' , 获得了 '+parseInt(hgold)+' 黄金与 '+Math.round((hgold - parseInt(hgold)) * 1e4)+' 白银');
-        total = 0;
-        document.getElementById('total').innerHTML='总计: '+total+'个钱袋';
-        return true;
+        show(name+' 使用了物品:钱袋 x'+count+' , 获得了 '+parseInt(hgold)+' 黄金与 '+Math.round((hgold - parseInt(hgold)) * 1e4)+' 白银');
+        total -= count;
     }
 
-    return false;
+    inventory[2] -= count;
+
+    update();
+}
+
+function buy(itemId) {
+    if(golds < window.pumsItems[itemId][1] || perfect < window.pumsItems[itemId][2] || lv < window.pumsItems[itemId][3]) {
+        echo('你没有足够的钱或等级!');
+    }
+    else {
+        golds -= window.pumsItems[itemId][1];
+        perfect -= window.pumsItems[itemId][2];
+        inventory[itemId]++;
+        echo('你购买了: '+window.pumsItems[itemId][0]+'!');
+        update();
+    }
+}
+
+function use(itemId) {
+    inventory[itemId]--;
+    show('你使用了: '+items[itemId][0]+'x1');
+    switch(itemId) {
+        case 0:
+            exp += 60;
+            break;
+        case 1:
+            lv += 20;
+            break;
+        case 2:
+            inventory[itemId]++;
+            usingBag(1);
+            break;
+        default:
+            console.log('use item fail')
+    }
+    update();
+}
+
+function destroy(itemId) {
+    inventory[itemId]--;
+    show('你摧毁了: '+items[itemId][0]+'x1');
+    update();
 }
 
 function detkey(e) {
@@ -67,6 +181,7 @@ function detkey(e) {
             var addr = document.getElementById('history');
             var box = document.createElement('div');
             box.className='msgbox';
+            addr.insertAdjacentElement('afterbegin', document.createElement('br'));
             addr.insertAdjacentElement('afterbegin', box);
 
             var msg = document.createElement('p');
@@ -83,15 +198,14 @@ function detkey(e) {
             msg.style.color = '#ffffff';
             msg.innerHTML=os;
             box.insertAdjacentElement('beforeend', msg);
-            addr.insertAdjacentElement('afterbegin', document.createElement('br'));
 
             i = 0;
         }
         else {
-            i ++;
+            i++;
 
             var addr = document.getElementById('history');
-            var box = addr.childNodes[1];
+            var box = addr.childNodes[0];
             box.className='msgbox';
 
             var msg = document.createElement('p');
@@ -125,6 +239,8 @@ function sheval(evaluation, color) {
 
 window.usingBag = usingBag;
 window.detkey = detkey;
+window.buy = buy;
+window.use = use;
 
 var mb = document.getElementById('moneybtn');
 var rh = document.getElementById('rhit');
@@ -139,26 +255,32 @@ document.getElementById('tb').addEventListener('click', shake);
 show("'"+name+"' entered and joined the game");
 
 rh.onclick = function() {
+    window.golds = golds;
     var dis = mb.getBoundingClientRect().left - rh.getBoundingClientRect().left;
-    clicks ++;
+    clicks++;
     document.getElementById('hits').innerHTML='命中率: '+hits+'/'+clicks+' = '+(hits/clicks*100).toFixed(1)+'%';
-    console.log(dis);
-    if(dis >= -30 & dis <= 30) {
-        randomMoney();
-        combo ++;
+    if(dis >= -35 & dis <= 35) {
+        combo++;
         var ot3 = Date.now();
         if(combo > best) {
             best = combo;
         }
+        if(combo >= 2) {
+            exp++;
+        }
         for(var j = 0; j < combos.length; j++) {
-            if(combo == combos[j]) {
+            if(combo == combos[j] || (combo % 20 == 0 & j == 2)) {
                 echo(combo+'连击! ')
+                if(combo >= 30) {
+                    exp += combo*2;
+                }
             }
         }
     }
 
     if(dis >= -5 & dis <= 5) {
         sheval('完美', 'forestgreen');
+        perfect++;
     }
     else if(dis >= -15 & dis <= 15) {
         sheval('优秀', 'limegreen');
@@ -166,7 +288,7 @@ rh.onclick = function() {
     else if(dis >= -24 & dis <= 24) {
         sheval('还行', '#b9f72b');
     }
-    else if(dis >= -30 & dis <= 30) {
+    else if(dis >= -35 & dis <= 35) {
         sheval('一般', 'gold');
     }
     else {
@@ -179,5 +301,13 @@ rh.onclick = function() {
     }
     document.getElementById('combo').innerHTML='连击: '+combo+' 最佳: '+best;
     ot2 = ot3;
+    if(dis >= -35 & dis <= 35) {
+        randomMoney();
+    }
 }
 
+/*
+var timeoutId = setInterval(function() {
+    update();
+}, 5000);
+*/

@@ -2,6 +2,7 @@ function show(smsg) {
     var addr = document.getElementById('history');
     var box = document.createElement('div');
     box.className='msgbox';
+    addr.insertAdjacentElement('afterbegin', document.createElement('br'));
     addr.insertAdjacentElement('afterbegin', box);
 
     var msg = document.createElement('p');
@@ -14,12 +15,12 @@ function show(smsg) {
     var msg = document.createElement('p');
     msg.innerHTML=smsg;
     box.insertAdjacentElement('beforeend', msg);
-    addr.insertAdjacentElement('afterbegin', document.createElement('br'));
 }
 function echo(smsg) {
     var addr = document.getElementById('history');
     var box = document.createElement('div');
     box.className='msgbox';
+    addr.insertAdjacentElement('afterbegin', document.createElement('br'));
     addr.insertAdjacentElement('afterbegin', box);
 
     var msg = document.createElement('p');
@@ -34,7 +35,6 @@ function echo(smsg) {
     msg.style.color='#7fc7ff';
     msg.innerHTML=smsg;
     box.insertAdjacentElement('beforeend', msg);
-    addr.insertAdjacentElement('afterbegin', document.createElement('br'));
 }
 
 export {show, echo};

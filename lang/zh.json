@@ -1,0 +1,6 @@
+{
+    "pickUpMoneySimulation": "捡钱模拟器",
+    "loadedSave": "存档已加载",
+    "loadError": "加载错误：",
+    "saveCheckWarn": "存档疑似被篡改"
+}

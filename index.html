@@ -6,10 +6,12 @@
     <title>Pick Up Money Simulation</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <script src="init.js"></script>
 <script type="module" src="sim.js"></script>
 <script type="module" src="say.js"></script>
 <script type="module" src="calc.js"></script>
+
 <body>
     <div class="cendiv">
         <div id="tb" class="box1">
@@ -54,5 +56,10 @@
     <div id="history" class="history">
     </div>
     <input id="say" onkeydown="detkey()">
+
+    <div class="saveBox">
+        <input id="saveIO" class="load">
+        <button class="loadButton" onclick="load()">加载</button>
+    </div>
 </body>
 </html>

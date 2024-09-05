@@ -156,12 +156,20 @@ body {
     margin: auto;
     width: 18px;
     height: 18px;
-    transition: all 0.2 ease;
-    visibility: hidden;
+    opacity: 0;
+    animation: otz 0.2s;
     background-color: #ff3535;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     padding: 0;
+}
+@keyframes zto {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes otz {
+    from {opacity: 1;}
+    to {opacity: 0;}
 }
 .del:hover {
     background-color: #ff6060;
@@ -173,7 +181,8 @@ body {
     box-shadow: none;
 }
 .inv:hover .del {
-    visibility: visible;
+    animation: zto 0.2s;
+    opacity: 1;
 }
 
 .rh {
@@ -217,6 +226,24 @@ input:focus {
 @keyframes focusshadow {
     from {box-shadow: 0px 0px 3px 1px grey;}
     to {box-shadow: 0px 0px 3px 3px grey;}
+}
+
+.saveBox {
+    display: flex;
+    width: 560px;
+    margin: auto;
+    margin-top: 50px;
+}
+.load {
+    flex: 0 0 auto;
+    width: 400px;
+    margin: auto;
+}
+.loadButton {
+    width: 90px;
+    height: 36px;
+    flex: 0 0 auto;
+    margin: auto;
 }
 
 ::selection {
@@ -267,6 +294,7 @@ input:focus {
 }
 
 button {
+    transition: background-color 0.2s ease, color 0.2s ease;
     border: 3px solid dodgerblue;
     border-radius: 0.5cm;
     width: 3.1cm;
@@ -281,9 +309,6 @@ button:hover {
 }
 .butbox:hover button {
     animation: lr 5.2s infinite ease;
-    font-weight: bolder;
-    color: green;
-    background-color: gold;
 }
 button:active {
     font-weight: bolder;
@@ -291,7 +316,7 @@ button:active {
 }
 button:focus {
     outline: none;
-    box-shadow: 0px 0px 2px 1px yellow;
+    box-shadow: 0px 0px 2px 1px dodgerblue;
 }
 @keyframes lr {
     0% {transform: translateX(200px);}

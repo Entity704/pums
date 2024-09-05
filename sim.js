@@ -1,6 +1,34 @@
 import {show, echo} from "./say.js";
 import {cExp} from "./calc.js";
 
+var zh;
+var en;
+var lang;
+
+fetch('./lang/zh.json')
+.then( res => {
+    if(!res.ok) {
+        console.log('loadLangFail');
+    }
+    return res.json();
+})
+.then(data => {
+    zh = data;
+    lang = zh;
+});
+
+fetch('./lang/en.json')
+.then( res => {
+    if(!res.ok) {
+        console.log('loadLangFail');
+    }
+    return res.json();
+})
+.then(data => {
+    en = data;
+});
+
+let check = 0;
 var total = 0;
 var golds = 0;
 var silver = 0;
@@ -22,6 +50,48 @@ document.getElementById('exp').innerHTML='经验: '+exp+'/'+needExp;
 var inventory = new Array(window.pumsItems.length);
 for(var j = 0; j < window.pumsItems.length; j++) {
     inventory[j] = 0;
+}
+
+function save() {
+    var gameSave = {
+        name: name,
+        total: total,
+        golds: golds,
+        clicks: clicks,
+        hits: hits,
+        combo: combo,
+        best: best,
+        lv: lv,
+        exp: exp,
+        perfect: perfect,
+        inventory: inventory,
+        ot: ot,
+        check: total + parseInt(golds + 1) ** 2 + clicks + (hits + 1) ** 3 + combo + best + lv + exp + (perfect + 1) ** 4 + inventory[2]
+    };
+    gameSave = JSON.stringify(gameSave);
+
+    document.getElementById('saveIO').value=gameSave;
+}
+
+function load() {
+    try {
+        var gameSave = JSON.parse(document.getElementById('saveIO').value);
+        if(gameSave.check != gameSave.total + parseInt(gameSave.golds + 1) ** 2 + gameSave.clicks + (gameSave.hits + 1)**3 + gameSave.combo + gameSave.best + gameSave.lv + gameSave.exp + (gameSave.perfect + 1) ** 4 + gameSave.inventory[2]) {
+            echo(lang.saveCheckWarn);
+            echo(lang.loadError+'Save checked seems changed');
+            return 0;
+        }
+
+        for(let val in gameSave) {
+            eval(val+' = gameSave[val];');
+        }
+
+        echo(lang.loadedSave);
+        update();
+    }
+    catch(error) {
+        echo(lang.loadError+error)
+    }
 }
 
 items = window.pumsItems;
@@ -50,6 +120,8 @@ function randomMoney() {
 }
 
 function update() {
+    document.getElementById('t').innerHTML=lang.pickUpMoneySimulation;
+    document.getElementById('name').innerHTML='昵称: '+name;
     document.getElementById('total').innerHTML='总计: '+total+'个钱袋';
     document.getElementById('money').innerHTML='你捡到了: '+(money + a)+'个钱袋';
     document.getElementById('golds').innerHTML=parseInt(golds)+'个黄金 '+silver+'个白银';
@@ -57,6 +129,7 @@ function update() {
     document.getElementById('combo').innerHTML='连击: '+combo+' 最佳: '+best;
     document.getElementById('perfect').innerHTML='完美: '+perfect;
 
+    needExp = cExp(lv);
     if(exp >= needExp) {
         exp -= needExp;
         lv++;
@@ -114,6 +187,7 @@ function update() {
     document.getElementById('exp').innerHTML='经验: '+exp+'/'+needExp;
 
     ot = Date.now();
+    save();
 }
 
 function usingBag(count) {
@@ -126,7 +200,7 @@ function usingBag(count) {
     silver = Math.round((golds - parseInt(golds)) * 1e4);
 
     if(total != 0) {
-        show(name+' 使用了物品:钱袋 x'+count+' , 获得了 '+parseInt(hgold)+' 黄金与 '+Math.round((hgold - parseInt(hgold)) * 1e4)+' 白银');
+        show(name+' 使用了物品: 钱袋 x'+count+', 获得了 '+parseInt(hgold)+' 黄金与 '+Math.round((hgold - parseInt(hgold)) * 1e4)+' 白银');
         total -= count;
     }
 
@@ -156,6 +230,7 @@ function use(itemId) {
             exp += 60;
             break;
         case 1:
+            show('你贿赂了Entity, 升级了20级');
             lv += 20;
             break;
         case 2:
@@ -241,6 +316,7 @@ window.usingBag = usingBag;
 window.detkey = detkey;
 window.buy = buy;
 window.use = use;
+window.load = load;
 
 var mb = document.getElementById('moneybtn');
 var rh = document.getElementById('rhit');
@@ -303,6 +379,9 @@ rh.onclick = function() {
     ot2 = ot3;
     if(dis >= -35 & dis <= 35) {
         randomMoney();
+    }
+    else {
+        update();
     }
 }
 

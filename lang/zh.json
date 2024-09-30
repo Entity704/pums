@@ -1,6 +1,21 @@
 {
     "pickUpMoneySimulation": "捡钱模拟器",
+    "name": "昵称: ",
+    "level": "等级: Lv.",
+    "EXP": "经验: ",
+    "perfectum": "完美: ",
     "loadedSave": "存档已加载",
     "loadError": "加载错误：",
-    "saveCheckWarn": "存档疑似被篡改"
+    "saveCheckWarn": "存档疑似被篡改",
+    "noMoney": "你没有足够的钱或等级!",
+    "mainMenu": {
+        "total": "总计: ",
+        "moneyBag": "个钱袋",
+        "youPicked": "你捡到了: ",
+        "whoPickedUp": " 捡到钱袋了! 拿到了 ",
+        "hits": "`命中率: ${hits}/${clicks} = ${(hits / clicks * 100).toFixed(1)}%`",
+        "golds": "`${parseInt(golds)}个黄金 ${silver}个白银`",
+        "combos": "`连击: ${combo} 最佳: ${best}`"
+    },
+    "combo": "连击!"
 }

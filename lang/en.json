@@ -1,6 +1,21 @@
 {
     "pickUpMoneySimulation": "Pick Up Money!",
+    "name": "Name: ",
+    "level": "Level: Lv.",
+    "EXP": "EXP: ",
+    "perfectum": "Perfectum: ",
     "loadedSave": "Save loaded done",
     "loadError": "Load fail：",
-    "saveCheckWarn": "Save seems was changed by something"
+    "saveCheckWarn": "Save seems to have been altered",
+    "noMoney": "Haven't enough gold, perfectum or level!",
+    "mainMenu": {
+        "total": "Total: ",
+        "moneyBag": " Moneybag",
+        "youPicked": "You picked up: ",
+        "whoPickedUp": " picked up money! Got ",
+        "hits": "`Hits: ${hits}/${clicks} = ${(hits / clicks * 100).toFixed(1)}%`",
+        "golds": "`${parseInt(golds)} Golds & ${silver} Silvers`",
+        "combos": "`Combos: ${combo}  Best: ${best}`"
+    },
+    "combo": " Combos!"
 }

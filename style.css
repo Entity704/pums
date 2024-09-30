@@ -8,6 +8,7 @@ body {
     line-height: 80%;
     font-size: 16px;
     touch-action: manipulation;
+    background-color: white;
 }
 
 .cendiv {
@@ -244,6 +245,29 @@ input:focus {
     height: 36px;
     flex: 0 0 auto;
     margin: auto;
+}
+
+.lang {
+    width: 1.2cm;
+    height: 1.2cm;
+    border-radius: 6mm;
+    border: 0 solid gray;
+    box-shadow: 0px 0px 5px 2px grey;
+    background-color: #f6f6f6;
+    position: absolute;
+    top: 2%;
+    right: 20%;
+    overflow: hidden;
+    font-size: 100%;
+    font-weight: bold;
+}
+.lang:hover {
+    background-color: #d0d0d0;
+    color: white;
+}
+.lang:focus {
+    border: 0 solid gray;
+    box-shadow: 0px 0px 5px 2px grey;
 }
 
 ::selection {
